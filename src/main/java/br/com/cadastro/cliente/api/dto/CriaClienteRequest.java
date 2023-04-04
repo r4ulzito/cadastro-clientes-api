@@ -4,16 +4,16 @@ import jakarta.validation.constraints.*;
 
 public record CriaClienteRequest(
 
-        @NotBlank
-        @Size(max = 32)
+        @NotBlank(message = "O campo nome é obrigatório!")
+        @Size(max = 32, message = "Nome deve conter no máximo 32 caracteres!")
         String nome,
 
-        @NotNull
+        @NotNull(message = "O campo idade é obrigatório!")
+        @Min(value = 1, message = "Idade inválida!")
         Integer idade,
 
-        @NotBlank
-        @Size(max = 64)
-        @Email
+        @NotBlank(message = "O campo email é obrigatório!")
+        @Email(message = "Email inválido!")
         String email
 ) {
 }
