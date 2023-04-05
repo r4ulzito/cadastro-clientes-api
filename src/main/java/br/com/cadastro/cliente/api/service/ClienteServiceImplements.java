@@ -1,6 +1,8 @@
 package br.com.cadastro.cliente.api.service;
 
+import br.com.cadastro.cliente.api.dto.BuscaClienteResponse;
 import br.com.cadastro.cliente.api.dto.CriaClienteRequest;
+import br.com.cadastro.cliente.api.exception.NullQueryException;
 import br.com.cadastro.cliente.api.mapper.ClienteMapper;
 import br.com.cadastro.cliente.api.model.Cliente;
 import br.com.cadastro.cliente.api.repository.ClienteRepository;
@@ -20,5 +22,14 @@ public class ClienteServiceImplements implements ClienteService {
     @Override
     public Cliente criaCliente(CriaClienteRequest clienteDTO) {
         return this.clienteRepository.save(ClienteMapper.buildCliente(clienteDTO));
+    }
+
+    @Override
+    public BuscaClienteResponse buscarClientePorId(Long clienteId) {
+        Cliente clienteEncontrado = this.clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new NullQueryException("Cliente não encontrado!"));
+
+        return new BuscaClienteResponse(clienteEncontrado);
+
     }
 }

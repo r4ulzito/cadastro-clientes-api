@@ -1,12 +1,11 @@
 package br.com.cadastro.cliente.api.handler.response;
 
-import lombok.Data;
 import lombok.Getter;
 
 import java.time.Instant;
 
 @Getter
-public class BeanValidationResponseCustomizada extends ExcecaoCustomizavelPadrao {
+public class BeanValidationResponseCustomizada extends ExceptionResponsePadrao {
 
     private final String fields;
 

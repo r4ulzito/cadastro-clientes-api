@@ -1,5 +1,6 @@
 package br.com.cadastro.cliente.api.controller;
 
+import br.com.cadastro.cliente.api.dto.BuscaClienteResponse;
 import br.com.cadastro.cliente.api.dto.CriaClienteRequest;
 import br.com.cadastro.cliente.api.model.Cliente;
 import br.com.cadastro.cliente.api.service.ClienteService;
@@ -29,6 +30,11 @@ public class ClienteController {
         URI uriNovoCliente = uriBuilder.path("clientes/{id}").buildAndExpand(clienteCadastrado.getId()).toUri();
 
         return ResponseEntity.created(uriNovoCliente).body(clienteCadastrado);
+    }
+
+    @GetMapping("/{clienteId}")
+    public BuscaClienteResponse buscaClientePorId(@PathVariable Long clienteId) {
+        return this.clienteService.buscarClientePorId(clienteId);
     }
 
 }

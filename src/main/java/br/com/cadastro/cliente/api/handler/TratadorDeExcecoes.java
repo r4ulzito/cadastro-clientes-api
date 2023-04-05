@@ -1,6 +1,8 @@
 package br.com.cadastro.cliente.api.handler;
 
+import br.com.cadastro.cliente.api.exception.NullQueryException;
 import br.com.cadastro.cliente.api.handler.response.BeanValidationResponseCustomizada;
+import br.com.cadastro.cliente.api.handler.response.ExceptionResponsePadrao;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -29,7 +31,20 @@ public class TratadorDeExcecoes {
                 campos
         );
 
-        return ResponseEntity.badRequest().body(error);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+
+    }
+
+    @ExceptionHandler(NullQueryException.class)
+    public ResponseEntity<ExceptionResponsePadrao> nullQueryException(NullQueryException ex) {
+
+        ExceptionResponsePadrao error = new ExceptionResponsePadrao(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 
     }
 
