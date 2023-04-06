@@ -6,6 +6,7 @@ import br.com.cadastro.cliente.api.model.Cliente;
 import br.com.cadastro.cliente.api.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -33,8 +34,17 @@ public class ClienteController {
     }
 
     @GetMapping("/{clienteId}")
-    public BuscaClienteResponse buscaClientePorId(@PathVariable Long clienteId) {
-        return this.clienteService.buscarClientePorId(clienteId);
+    public ResponseEntity<BuscaClienteResponse> buscaClientePorId(@PathVariable Long clienteId) {
+        return ResponseEntity.ok().body(this.clienteService.buscarClientePorId(clienteId));
+    }
+
+    @DeleteMapping("/{clienteId}")
+    public ResponseEntity excluirCliente(@PathVariable Long clienteId) {
+
+        this.clienteService.excluirCliente(clienteId);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
     }
 
 }

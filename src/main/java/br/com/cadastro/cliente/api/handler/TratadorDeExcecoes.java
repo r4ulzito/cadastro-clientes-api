@@ -3,6 +3,7 @@ package br.com.cadastro.cliente.api.handler;
 import br.com.cadastro.cliente.api.exception.NullQueryException;
 import br.com.cadastro.cliente.api.handler.response.BeanValidationResponseCustomizada;
 import br.com.cadastro.cliente.api.handler.response.ExceptionResponsePadrao;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -42,6 +43,19 @@ public class TratadorDeExcecoes {
                 Instant.now(),
                 HttpStatus.NOT_FOUND.value(),
                 ex.getMessage()
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionResponsePadrao> entityNotFoundException(EntityNotFoundException ex) {
+
+        ExceptionResponsePadrao error = new ExceptionResponsePadrao(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Cliente inexistente!"
         );
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);

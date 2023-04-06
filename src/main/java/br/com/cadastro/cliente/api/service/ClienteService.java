@@ -9,4 +9,7 @@ public interface ClienteService {
     Cliente criaCliente(CriaClienteRequest clienteDTO);
 
     BuscaClienteResponse buscarClientePorId(Long clienteId);
+
+    void excluirCliente(Long clienteId);
+
 }

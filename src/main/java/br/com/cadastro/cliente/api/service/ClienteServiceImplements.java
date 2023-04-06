@@ -32,4 +32,15 @@ public class ClienteServiceImplements implements ClienteService {
         return new BuscaClienteResponse(clienteEncontrado);
 
     }
+
+    @Override
+    public void excluirCliente(Long clienteId) {
+
+        Cliente clienteEncontrado = this.clienteRepository.getReferenceById(clienteId);
+
+        System.out.println(clienteEncontrado);
+
+        this.clienteRepository.delete(clienteEncontrado);
+
+    }
 }
