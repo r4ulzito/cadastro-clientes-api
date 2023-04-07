@@ -1,5 +1,6 @@
 package br.com.cadastro.cliente.api.model;
 
+import br.com.cadastro.cliente.api.dto.CriaClienteRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,12 @@ public class Cliente {
 
     @Column(nullable = false)
     String email;
+
+    public void atualizaDados(CriaClienteRequest novosDados) {
+        this.nome = novosDados.nome();
+        this.idade = novosDados.idade();
+        this.email = novosDados.email();
+    }
 
     @Override
     public boolean equals(Object o) {

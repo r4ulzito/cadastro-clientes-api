@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/clientes")
@@ -27,7 +28,7 @@ public class ClienteController {
     @PostMapping
     public ResponseEntity<Cliente> cadastraCliente(@Valid @RequestBody CriaClienteRequest data, UriComponentsBuilder uriBuilder) {
 
-        Cliente clienteCadastrado = this.clienteService.criaCliente(data);
+        Cliente clienteCadastrado = this.clienteService.criarCliente(data);
         URI uriNovoCliente = uriBuilder.path("clientes/{id}").buildAndExpand(clienteCadastrado.getId()).toUri();
 
         return ResponseEntity.created(uriNovoCliente).body(clienteCadastrado);
@@ -36,6 +37,22 @@ public class ClienteController {
     @GetMapping("/{clienteId}")
     public ResponseEntity<BuscaClienteResponse> buscaClientePorId(@PathVariable Long clienteId) {
         return ResponseEntity.ok().body(this.clienteService.buscarClientePorId(clienteId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BuscaClienteResponse>> buscaClientes() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.clienteService.buscarClientes());
+    }
+
+    @PutMapping("/{clienteId}")
+    public ResponseEntity atualizaCliente(
+            @PathVariable Long clienteId,
+            @Valid @RequestBody CriaClienteRequest clienteAtualizado
+    ) {
+
+        this.clienteService.atualizarCliente(clienteId, clienteAtualizado);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{clienteId}")

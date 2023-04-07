@@ -9,6 +9,8 @@ import br.com.cadastro.cliente.api.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClienteServiceImplements implements ClienteService {
 
@@ -20,7 +22,7 @@ public class ClienteServiceImplements implements ClienteService {
     }
 
     @Override
-    public Cliente criaCliente(CriaClienteRequest clienteDTO) {
+    public Cliente criarCliente(CriaClienteRequest clienteDTO) {
         return this.clienteRepository.save(ClienteMapper.buildCliente(clienteDTO));
     }
 
@@ -31,6 +33,21 @@ public class ClienteServiceImplements implements ClienteService {
 
         return new BuscaClienteResponse(clienteEncontrado);
 
+    }
+
+    @Override
+    public List<BuscaClienteResponse> buscarClientes() {
+        return this.clienteRepository.findAll().stream()
+                .map(BuscaClienteResponse::new).toList();
+    }
+
+    @Override
+    public void atualizarCliente(Long clienteId, CriaClienteRequest dadosClienteAtualizado) {
+        Cliente clienteEncontrado = this.clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new NullQueryException("Cliente não encontrado!"));
+
+        clienteEncontrado.atualizaDados(dadosClienteAtualizado);
+        this.clienteRepository.save(clienteEncontrado);
     }
 
     @Override
