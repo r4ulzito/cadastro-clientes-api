@@ -12,8 +12,8 @@ public class CadastroClienteTest {
     private static final String BASE_ENDPOINT = "http://localhost:8080/clientes";
 
     /*
-    Dado nome, idade e email de um cliente
-    Quando uma requisição POST for efetuada
+    Dado nome, idade e email válidos
+    Quando uma requisição POST for efetuada para "/clientes"
     Então deverá retorar o status code 201
      */
 
@@ -34,6 +34,22 @@ public class CadastroClienteTest {
                 .statusCode(201)
                 .body("nome", equalTo("Nome Teste"));
 
+    }
+
+    @Test
+    public void deveRetornar400AoNaoEnviarNomeDoCliente() {
+        given()
+                .body("""
+                        {
+                          "nome": "",
+                          "idade": 20,
+                          "email": "email@email.com"
+                        }""")
+                .contentType(ContentType.JSON)
+                .when()
+                .post(BASE_ENDPOINT)
+                .then()
+                .statusCode(400);
     }
 
 }
