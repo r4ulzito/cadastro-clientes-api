@@ -37,7 +37,7 @@ Então deverá retorar o status code 201
 
         given()
                 .body("""
-                        **{**
+                        {
                           "nome": "Nome Teste",
                           "idade": 20,
                           "email": "email@email.com"
