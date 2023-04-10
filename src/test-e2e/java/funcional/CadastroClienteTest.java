@@ -53,4 +53,20 @@ public class CadastroClienteTest {
                 .statusCode(400);
     }
 
+    @Test
+    public void deveRetornar400AoEnviarIdadeDoClienteZerada() {
+        given()
+                .body("""
+                        {
+                          "nome": "Nome Teste",
+                          "idade": 0,
+                          "email": "email@email.com"
+                        }""")
+                .contentType(ContentType.JSON)
+                .when()
+                .post(BASE_ENDPOINT)
+                .then()
+                .statusCode(400);
+    }
+
 }
