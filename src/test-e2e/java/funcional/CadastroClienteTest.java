@@ -12,6 +12,7 @@ public class CadastroClienteTest {
     private static final String BASE_ENDPOINT = "http://localhost:8080/clientes";
 
     /*
+     <- Exemplo de BDD ->
     Dado nome, idade e email válidos
     Quando uma requisição POST for efetuada para "/clientes"
     Então deverá retorar o status code 201
