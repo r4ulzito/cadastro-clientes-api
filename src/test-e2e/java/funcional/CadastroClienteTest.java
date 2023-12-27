@@ -1,72 +1,63 @@
 package funcional;
 
-import io.restassured.http.ContentType;
+import br.com.cadastro.cliente.api.domain.dto.CriaClienteRequest;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import utils.BaseTest;
+import utils.client.ClienteClient;
 
-import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 
-public class CadastroClienteTest {
-
-    private static final String BASE_ENDPOINT = "http://localhost:8080/clientes";
+public class CadastroClienteTest extends BaseTest {
 
     /*
      <- Exemplo de BDD ->
     Dado nome, idade e email válidos
     Quando uma requisição POST for efetuada para "/clientes"
-    Então deverá retorar o status code 201
+    Então deverá retorar o status code 201 com dados do cliente
      */
-
     @Test
     public void deveRetornarStatus201AoCadastrarCliente() {
 
-        given()
-                .body("""
-                        {
-                          "nome": "Nome Teste",
-                          "idade": 20,
-                          "email": "email@email.com"
-                        }""")
-                .contentType(ContentType.JSON)
-                .when()
-                .post(BASE_ENDPOINT)
-                .then()
-                .statusCode(201)
-                .body("nome", equalTo("Nome Teste"));
+        CriaClienteRequest clienteData = CriaClienteRequest.builder()
+                .nome("Nome Teste")
+                .idade(20)
+                .email("email@email.com")
+                .build();
 
+        ClienteClient.cadastraCliente(clienteData)
+                .statusCode(HttpStatus.CREATED.value())
+                .body("nome", equalTo("Nome Teste"))
+                .body("idade", equalTo(20))
+                .body("email", equalTo("email@email.com"));
     }
 
     @Test
     public void deveRetornar400AoNaoEnviarNomeDoCliente() {
-        given()
-                .body("""
-                        {
-                          "nome": "",
-                          "idade": 20,
-                          "email": "email@email.com"
-                        }""")
-                .contentType(ContentType.JSON)
-                .when()
-                .post(BASE_ENDPOINT)
-                .then()
-                .statusCode(400);
+
+        CriaClienteRequest clienteData = CriaClienteRequest.builder()
+                .idade(20)
+                .email("email@email.com")
+                .build();
+
+        ClienteClient.cadastraCliente(clienteData)
+                .statusCode(400)
+                .body("message", equalTo("O campo nome é obrigatório!"));
     }
 
     @Test
     public void deveRetornar400AoEnviarIdadeDoClienteZerada() {
-        given()
-                .body("""
-                        {
-                          "nome": "Nome Teste",
-                          "idade": 0,
-                          "email": "email@email.com"
-                        }""")
-                .contentType(ContentType.JSON)
-                .when()
-                .post(BASE_ENDPOINT)
-                .then()
-                .statusCode(400);
+
+        CriaClienteRequest clienteData = CriaClienteRequest.builder()
+                .nome("Nome Teste")
+                .idade(0)
+                .email("email@email.com")
+                .build();
+
+        ClienteClient.cadastraCliente(clienteData)
+                .log().all()
+                .statusCode(400)
+                .body("message", equalTo("Idade inválida!"));
     }
 
 }

@@ -1,60 +1,25 @@
-### O que é Rest Assured
+## **O que é Rest Assured**
 
-Rest-Assured é uma ferramenta desenvolvida para facilitar a criação de testes automatizados para APIs REST.
-Esta oferece suporte para validar protocolo HTTP e requisições em JSON. Sua sintaxe é baseada em Behavior Driven
-Development(BDD), uma métodologia de testes, baseadas no comportamento do usuário.
+Rest-Assured é uma ferramenta desenvolvida para facilitar a criação de testes automatizados para APIs REST. Esta oferece
+suporte para validar protocolo HTTP e requisições em JSON. Sua sintaxe é baseada em Behavior Driven Development(BDD),
+uma métodologia de testes, baseadas no comportamento do usuário.
 
 - [Documentação do Rest Assured](https://rest-assured.io/)
 
-### 1. Inserindo o REST Assured no projeto
+## **Execução dos Testes**
 
-- O Rest Assured necessita de um executor de testes unitários como [JUnit](https://junit.org/junit5/)
-  ou [TestNG](https://testng.org/doc/index.html)
-- Dependencia no Maven
+**Passo 1 - Clonar o projeto**
 
-    ```xml
-    <dependency>
-          <groupId>io.rest-assured</groupId>
-          <artifactId>rest-assured</artifactId>
-          <version>5.3.0</version>
-          <scope>test</scope>
-    </dependency>
-    ```
+- Execute o código a baixo no terminal do seu diretório
+  ```bash
+  git clone https://github.com/r4ulzito/rest-assured-cadastro-clientes.git
+  ```
+- Abra em usa IDEA de preferencia
+- Instale as dependencias maven
+- Execute o método _main_ dentro da classe _ApiCadastroClientesApplication_
 
-- Imports necessários para testes
+**Passo 2 - Execução dos Testes com RestAssured**
 
-    ```java
-    import static io.restassured.RestAssured.*;
-    import static io.restassured.matcher.RestAssuredMatchers.*;
-    import static org.hamcrest.Matchers.*;
-    ```
-
-### 2. Exemplo  Teste de cadastro de um Cliente
-
-```java
-
-/*
-  <- Exemplo de BDD ->
- Dado nome, idade e email válidos
- Quando uma requisição POST for efetuada para "/clientes"
- Então deverá retorar o status code 201
-*/
-
-@Test
-public void deveRetornarStatus201AoCadastrarCliente(){
-
-        given()
-        .body("""
-                        {
-                          "nome": "Nome Teste",
-                          "idade": 20,
-                          "email": "email@email.com"
-                        }""")
-        .contentType(ContentType.JSON)
-        .when()
-        .post(BASE_ENDPOINT)
-        .then()
-        .statusCode(201)
-        .body("nome",equalTo("Nome Teste"));
-        }
-```
+- Basta executar todos os testes dentro do diretório _src/test-e2e/java_
+- Deverá obter esse resultado
+  ![exemplo_testes](https://github.com/r4ulzito/rest-assured-cadastro-clientes/assets/97764322/668888fd-f56b-4fba-b2e8-ef92c9d5eb79)
