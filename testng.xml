@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"
+          name="C:/Users/raul.santos/Documents/meus-projetos/rest-assured-cadastro-clientes/src/test/java">
+        <classes>
+            <class name="contrato.ContratoBuscaClienteTest">
+                <methods>
+                    <include name="buscaClienteContratoTest"/>
+
+                </methods>
+            </class>
+            <class name="funcional.CadastroClienteTest">
+                <methods>
+                    <include name="deveRetornarStatus201AoCadastrarCliente"/>
+                    <include name="deveRetornar400AoNaoEnviarNomeDoCliente"/>
+                    <include name="deveRetornar400AoEnviarIdadeDoClienteZerada"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

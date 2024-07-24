@@ -1,12 +1,12 @@
-package utils;
+package util;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.testng.annotations.BeforeMethod;
 
 import static io.restassured.RestAssured.*;
 
 public class BaseTest {
 
-    @BeforeEach
+    @BeforeMethod
     public void beforeEach() {
 
         baseURI = "http://localhost:8080";

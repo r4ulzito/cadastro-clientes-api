@@ -1,10 +1,11 @@
 package funcional;
 
 import br.com.cadastro.cliente.api.domain.dto.CriaClienteRequest;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.http.HttpStatus;
-import utils.BaseTest;
-import utils.client.ClienteClient;
+import org.testng.annotations.Test;
+import util.BaseTest;
+import util.client.ClienteClient;
 
 import static org.hamcrest.Matchers.*;
 
